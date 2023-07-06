@@ -14,7 +14,7 @@ bookRoute.post("/add",async(req,res)=>{
         res.send({"msg":"Book Added"})
     } catch (error) {
         console.log(error)
-        res.send({"error":error})
+        res.send({"msg":error})
     }
 })
 
@@ -22,7 +22,7 @@ bookRoute.post("/add",async(req,res)=>{
 bookRoute.get("/",async(req,res)=>{
     try {
         let data=await bookModel.find()
-        res.send({"products":data})
+        res.send({data})
     } catch (error) {
         console.log("error")
         res.send({"error":error})
@@ -36,7 +36,7 @@ bookRoute.get("/sort",async(req,res)=>{
     const sort=req.query.sort
     try {
         let data=await bookModel.find().sort({price:sort})
-        res.send({"products":data})
+        res.send({data})
     } catch (error) {
         console.log("error",error)
         res.send({"error":error})
@@ -50,7 +50,7 @@ bookRoute.get("/filter",async(req,res)=>{
     const filter=req.query.filter
     try {
         let data=await bookModel.find({genre:filter})
-        res.send({"products":data})
+        res.send({data})
     } catch (error) {
         console.log("error",error)
         res.send({"error":error})
@@ -66,13 +66,26 @@ bookRoute.get("/filterWithSort",async(req,res)=>{
 
     try {
         let data=await bookModel.find({genre:filter}).sort({price:sort})
-        res.send({"products":data})
+        res.send({data})
     } catch (error) {
         console.log("error",error)
         res.send({"error":error})
     }
 })
 
+
+// ..........................Delete A Book..............................
+
+bookRoute.delete("/:id",async(req,res)=>{
+    const id=req.params.id
+    try {
+       await bookModel.findByIdAndDelete(id) 
+       res.send({"msg":"Deleted Successfuly"})
+    } catch (error) {
+        console.log("error",error)
+        res.send({"error":error})
+    }
+})
 
 module.exports={
     bookRoute
