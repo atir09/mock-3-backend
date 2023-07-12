@@ -24,7 +24,7 @@ bookRoute.get("/",async(req,res)=>{
         let data=await bookModel.find()
         res.send({data})
     } catch (error) {
-        console.log("error")
+        console.log(error)
         res.send({"error":error})
     }
 })
